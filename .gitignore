@@ -1,0 +1,12 @@
+# Data and results produced by the notebooks
+*.hspy
+*.pkl
+*.npy
+*.csv
+parameter_maps/
+output_data/
+meta_data/
+
+# Jupyter and OS files
+.ipynb_checkpoints/
+.DS_Store

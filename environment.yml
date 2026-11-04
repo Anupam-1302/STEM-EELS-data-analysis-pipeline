@@ -1,0 +1,37 @@
+# Conda environment for the TR-EELS temperature-mapping pipeline.
+#
+# Create:   conda env create -f environment.yml
+# Activate: conda activate tr-eels-temperature
+#
+# The thesis analysis ran on Python 3.13.1. Package versions were not recorded,
+# so only minimum versions are given.
+
+name: tr-eels-temperature
+channels:
+  - conda-forge
+dependencies:
+  - python=3.13
+  - pip
+
+  # Core analysis (steps 1-10)
+  - hyperspy>=2.0      # signals, models, multifit, PCA, .hspy files
+  - numpy
+  - scipy
+  - scikit-learn       # PCA backend (algorithm="sklearn_pca")
+  - matplotlib
+
+  # Temperature model fitting (step 11)
+  - pandas
+  - tqdm
+
+  # Notebooks and interactive plots (%matplotlib widget)
+  - jupyterlab
+  - ipympl
+
+  # Optional: GIF export of the temperature movie
+  - ffmpeg
+
+  # Timepix3 event handling: pytpx is a private package (STEM group members only)
+  # and is installed separately after activating this environment:
+  #   pip install "pytpx[viz] @ git+https://github.com/FCastioni/pytpx.git"
+  # See "Installing pytpx" in the README for how to get access.
