@@ -1,4 +1,15 @@
+<div align="center">
+
 # Temperature mapping of aluminium nanobridges with time-resolved EELS
+
+[![Python 3.13](https://img.shields.io/badge/Python-3.13-3776AB?logo=python&logoColor=white)](environment.yml)
+[![HyperSpy >= 2.0](https://img.shields.io/badge/HyperSpy-%3E%3D%202.0-5C2D91)](https://hyperspy.org)
+[![Jupyter notebooks](https://img.shields.io/badge/Jupyter-notebooks-F37626?logo=jupyter&logoColor=white)](raw_to_temperature.ipynb)
+[![Detector Timepix3](https://img.shields.io/badge/Detector-Timepix3-2EA44F)](#pipeline)
+[![Pipeline 11 steps](https://img.shields.io/badge/Pipeline-11%20steps-E8833A)](#pipeline)
+[![Thesis PDF](https://img.shields.io/badge/Thesis-PDF-B31B1B?logo=adobeacrobatreader&logoColor=white)](Masters_thesis_Anupam_Chauhan_EMMNANO.pdf)
+
+</div>
 
 An 11-step Python pipeline from my Master's thesis. It measures how laser-heated aluminium nanobridges
 heat up and cool down, on nanosecond time scales, using time-resolved electron energy-loss
@@ -7,28 +18,33 @@ spectroscopy (TR-EELS) with an event-based Timepix3 detector.
 The pipeline turns raw electron events (300-400 GB per acquisition) into a temperature-change map
 ΔT(x, y, t). It then fits a rise-and-decay model to every pixel.
 
-The full thesis, *Heat transport in confined nanostructures*, is included in this repository as
-[`Masters_thesis_Anupam_Chauhan_EMMNANO.pdf`](Masters_thesis_Anupam_Chauhan_EMMNANO.pdf). It covers the physics, the experiment and the results behind this code.
+> [!NOTE]
+> The full thesis, *Heat transport in confined nanostructures*, is included in this repository as
+> [`Masters_thesis_Anupam_Chauhan_EMMNANO.pdf`](Masters_thesis_Anupam_Chauhan_EMMNANO.pdf). It covers the physics, the experiment and the results behind this code.
+
+---
 
 ## Pipeline
 
-![Pipeline flowchart: steps 1-5 (calibration and preprocessing) and steps 6-11 (data analysis and temperature map extraction)](pipeline-flowchart.png)
+<p align="center">
+  <img src="pipeline-flowchart.png" width="85%" alt="Pipeline flowchart: steps 1-5 (calibration and preprocessing) and steps 6-11 (data analysis and temperature map extraction)">
+</p>
 
-A vector version is in [`pipeline-flowchart.pdf`](pipeline-flowchart.pdf).
+<p align="center">A vector version is in <a href="pipeline-flowchart.pdf"><code>pipeline-flowchart.pdf</code></a>.</p>
 
 | Step | Name | Stage | File |
 |---|---|---|---|
-| 1 | Preprocess | Calibration and preprocessing | `raw_to_temperature.ipynb` |
-| 2 | Build the coincidence object | Calibration and preprocessing | `raw_to_temperature.ipynb` |
-| 3 | Offset correction | Calibration and preprocessing | `raw_to_temperature.ipynb` |
-| 4 | Energy axis calibration | Calibration and preprocessing | `raw_to_temperature.ipynb` |
-| 5 | Pulse detection using PINEM | Calibration and preprocessing | `raw_to_temperature.ipynb` |
-| 6 | Crop and rebin | Temperature map extraction | `raw_to_temperature.ipynb` |
-| 7 | Build te_hyperspim object and PCA | Temperature map extraction | `raw_to_temperature.ipynb` |
-| 8 | Aluminium mask | Temperature map extraction | `raw_to_temperature.ipynb` |
-| 9 | Multifit: per-pixel fitting | Temperature map extraction | `raw_to_temperature.ipynb` |
-| 10 | Energy to temperature | Temperature map extraction | `raw_to_temperature.ipynb` |
-| 11 | Temperature model fitting | Temperature map extraction | `temperature_fitting.ipynb` |
+| 1 | Preprocess | ![Calibration and preprocessing](https://img.shields.io/badge/Calibration%20and%20preprocessing-1f6feb) | `raw_to_temperature.ipynb` |
+| 2 | Build the coincidence object | ![Calibration and preprocessing](https://img.shields.io/badge/Calibration%20and%20preprocessing-1f6feb) | `raw_to_temperature.ipynb` |
+| 3 | Offset correction | ![Calibration and preprocessing](https://img.shields.io/badge/Calibration%20and%20preprocessing-1f6feb) | `raw_to_temperature.ipynb` |
+| 4 | Energy axis calibration | ![Calibration and preprocessing](https://img.shields.io/badge/Calibration%20and%20preprocessing-1f6feb) | `raw_to_temperature.ipynb` |
+| 5 | Pulse detection using PINEM | ![Calibration and preprocessing](https://img.shields.io/badge/Calibration%20and%20preprocessing-1f6feb) | `raw_to_temperature.ipynb` |
+| 6 | Crop and rebin | ![Temperature map extraction](https://img.shields.io/badge/Temperature%20map%20extraction-e8833a) | `raw_to_temperature.ipynb` |
+| 7 | Build te_hyperspim object and PCA | ![Temperature map extraction](https://img.shields.io/badge/Temperature%20map%20extraction-e8833a) | `raw_to_temperature.ipynb` |
+| 8 | Aluminium mask | ![Temperature map extraction](https://img.shields.io/badge/Temperature%20map%20extraction-e8833a) | `raw_to_temperature.ipynb` |
+| 9 | Multifit: per-pixel fitting | ![Temperature map extraction](https://img.shields.io/badge/Temperature%20map%20extraction-e8833a) | `raw_to_temperature.ipynb` |
+| 10 | Energy to temperature | ![Temperature map extraction](https://img.shields.io/badge/Temperature%20map%20extraction-e8833a) | `raw_to_temperature.ipynb` |
+| 11 | Temperature model fitting | ![Temperature map extraction](https://img.shields.io/badge/Temperature%20map%20extraction-e8833a) | `temperature_fitting.ipynb` |
 
 ### What each step does
 
@@ -55,22 +71,30 @@ A vector version is in [`pipeline-flowchart.pdf`](pipeline-flowchart.pdf).
     The fitted parameters (amplitudes, rise and decay times, peak temperature)
     are shown as spatial maps and can be exported per pixel.
 
+---
+
 ## Physics - brief
 
-The bulk plasmon energy depends on the free-electron density, E_p ∝ √n. When the aluminium heats up,
-thermal expansion lowers n, so the plasmon red-shifts. With a temperature-dependent expansion
-coefficient α(T) = α₀ + α₁ΔT + α₂ΔT², the relative shift is
+The bulk plasmon energy depends on the free-electron density, $E_p \propto \sqrt{n}$. When the aluminium heats up,
+thermal expansion lowers $n$, so the plasmon red-shifts. With a temperature-dependent expansion
+coefficient $\alpha(T) = \alpha_0 + \alpha_1\Delta T + \alpha_2\Delta T^2$, the relative shift is
 
-    ΔE_p / E_p(T0) = (3/2) · (α₀ΔT + α₁ΔT²/2 + α₂ΔT³/3)
+$$
+\frac{\Delta E_p}{E_p(T_0)} = \frac{3}{2}\left(\alpha_0\Delta T + \frac{\alpha_1\Delta T^2}{2} + \frac{\alpha_2\Delta T^3}{3}\right)
+$$
 
-where ΔE_p = E_p(T0) - E_p(T). This cubic is solved for ΔT in every pixel and time frame. The
-reference E_p(T0) comes from the frames recorded before the laser pulse.
+where $\Delta E_p = E_p(T_0) - E_p(T)$. This cubic is solved for ΔT in every pixel and time frame. The
+reference $E_p(T_0)$ comes from the frames recorded before the laser pulse.
 
 After the pulse, heat flows along the bridge into the pads at both ends, which act as heat sinks.
 The ΔT transient of each pixel is fitted with a rise-and-decay model with separate amplitudes
-(Δt = t - t_on):
+($\Delta t = t - t_{on}$):
 
-    ΔT(t) = A_1 · exp(-Δt / τ_decay) - A_2 · exp(-Δt / τ_rise) + C
+$$
+\Delta T(t) = A_1 \exp\left(-\frac{\Delta t}{\tau_{decay}}\right) - A_2 \exp\left(-\frac{\Delta t}{\tau_{rise}}\right) + C
+$$
+
+---
 
 ## Repository contents
 
@@ -83,6 +107,8 @@ The ΔT transient of each pixel is fitted with a rise-and-decay model with separ
 | `environment.yml` | Conda environment with the required packages |
 | `pipeline-flowchart.png`, `pipeline-flowchart.pdf` | Pipeline figure |
 | `Masters_thesis_Anupam_Chauhan_EMMNANO.pdf` | Master's thesis (PDF) |
+
+---
 
 ## Installation
 
@@ -99,9 +125,10 @@ conda activate tr-eels-temperature
 
 ### Installing pytpx
 
-`pytpx` is a private package of the STEM group. Ask the maintainer (FCastioni) for collaborator
-access to [FCastioni/pytpx](https://github.com/FCastioni/pytpx), then install it with pip (needs
-[Git](https://git-scm.com)) into the activated environment:
+> [!IMPORTANT]
+> `pytpx` is a private package of the STEM group. Ask the maintainer (FCastioni) for collaborator
+> access to [FCastioni/pytpx](https://github.com/FCastioni/pytpx), then install it with pip (needs
+> [Git](https://git-scm.com)) into the activated environment:
 
 ```bash
 pip install "pytpx[viz] @ git+https://github.com/FCastioni/pytpx.git"
@@ -113,7 +140,8 @@ To update it later:
 pip install --upgrade "pytpx[viz] @ git+https://github.com/FCastioni/pytpx.git"
 ```
 
-The `[viz]` extra installs HyperSpy support, which this pipeline needs.
+> [!TIP]
+> The `[viz]` extra installs HyperSpy support, which this pipeline needs.
 
 ### Starting the notebook
 
@@ -138,8 +166,11 @@ jupyter lab
 | `jupyterlab` | Running the notebooks |
 | `ffmpeg` | Optional GIF export of the ΔT movie |
 
-Package versions were not recorded during the thesis work, so `environment.yml` gives only minimum
-versions.
+> [!NOTE]
+> Package versions were not recorded during the thesis work, so `environment.yml` gives only minimum
+> versions.
+
+---
 
 ## Running the notebooks
 
@@ -191,10 +222,14 @@ These are the values used for scan 02.
 | `experimental_fit_results.csv` | Fitted parameters of selected pixels |
 | `model1_fit_results.pkl`, `model1_*.npy` | Saved fit results, data and time axis, to reload without re-fitting |
 
+---
+
 ## Design choices
 
 The reasons behind the main parameter and method choices (D1-D14) are in
 [`DESIGN_CHOICES.md`](DESIGN_CHOICES.md).
+
+---
 
 ## Thesis
 
